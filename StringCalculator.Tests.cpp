@@ -1,44 +1,104 @@
 #include <gtest/gtest.h>
 #include "StringCalculator.h"
-
 TEST(StringCalculatorAddTests, ExpectZeroForEmptyInput) {
     int expectedresult = 0;
-    const char* input = "Hello, world!";
-    int result = add(input);
+    std::string input = "";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
     ASSERT_EQ(result, expectedresult);
 }
 
 TEST(StringCalculatorAddTests, ExpectZeroForSingleZero) {
     int expectedresult = 0;
-    const char* input = "0";
-    int result = add(input);
+    std::string input = "0";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
     ASSERT_EQ(result, expectedresult);
 }
 
 TEST(StringCalculatorAddTests, ExpectSumForTwoNumbers) {
     int expectedresult = 3;
-    const char*  input = "1,2";
-    int result = add(input);
+    std::string input = "1,2";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
     ASSERT_EQ(result, expectedresult);
+}
+TEST(StringCalculatorAddTests, ExpectExceptionForAlphabets) {
+    ASSERT_THROW({
+        std::string input = "a,2";
+        StringCalculator objUnderTest;
+       objUnderTest.add(input);
+        }, std::runtime_error);
+}
+TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
+    ASSERT_THROW({
+        std::string input = "-1,2";
+        StringCalculator objUnderTest;
+       objUnderTest.add(input);
+        }, std::runtime_error);
+}
+
+TEST(StringCalculatorAddTests, ExpectExceptionForMultipleNegativeNumbers) {
+    ASSERT_THROW({
+        std::string input = "-1,-2";
+        StringCalculator objUnderTest;
+       objUnderTest.add(input);
+        }, std::runtime_error);
 }
 
 TEST(StringCalculatorAddTests, ExpectSumWithNewlineDelimiter) {
     int expectedresult = 6;
-    const char*  input = "1\n2,3";
-    int result =add(input);
+    std::string input = "1\n2,3";
+     StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, ExpectSumWithUnknownLength) {
+    int expectedresult = 11;
+    std::string input = "1\n2,3;4,5";
+     StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
     ASSERT_EQ(result, expectedresult);
 }
 
 TEST(StringCalculatorAddTests, IgnoreNumbersGreaterThan1000) {
     int expectedresult = 1;
-    const char*  input = "1,1001";
-    int result =add(input);
+    std::string input = "1,1001";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, IgnoreAllNumbersThatAreGreaterThan1000) {
+    int expectedresult = 0;
+    std::string input = "1000,1001";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
     ASSERT_EQ(result, expectedresult);
 }
 
 TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter) {
     int expectedresult = 3;
-    const char*  input = "//;\n1;2";
-    int result = add(input);
+    std::string input = "//;\n1;2";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiterWithCustomLength) {
+    int expectedresult = 3;
+    std::string input = "//;\n1;;2";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
     ASSERT_EQ(result, expectedresult);
 }

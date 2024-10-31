@@ -18,6 +18,7 @@ enable_testing()
 add_compile_options("--coverage")
 add_executable(
   cleancode
+  StringCalculator.cpp
   StringCalculator.Tests.cpp
 )
 target_link_libraries(
@@ -28,3 +29,4 @@ target_link_libraries(
 
 include(GoogleTest)
 gtest_discover_tests(cleancode)
+
